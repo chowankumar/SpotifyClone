@@ -1,15 +1,16 @@
-import { createContext,useRef, useState } from "react";
+import { createContext,useRef,useState } from "react";
+import { songsData } from "../assets/assets";
 
 
 export const PlayerContext = createContext();
 
 const PlayerContextProvider = (props)=>{
 
-    const auidoref = useRef();
+    const audioref = useRef();
     const seekbg = useRef();
     const seekBar = useRef();
 
-    const [track,setTrack] = useState(songData[0]);
+    const [track,setTrack] = useState(songsData[0]);
     const[playStatus,setPlayStatus] = useState(false);
     const[time,setTime] = useState({
         currentTime:{
@@ -23,20 +24,24 @@ const PlayerContextProvider = (props)=>{
     })
 
     const play =()=>{
-        auidoref.current.play();
+        audioref.current.play();
         setPlayStatus(true)
     }
 
     const pause =()=>{
-        auidoref.current.pause();
+        audioref.current.pause();
         setPlayStatus(false)
 
     }
 
     const contextValue = {
-        auidoref,
+        audioref,
         seekbg,
-        seekBar
+        seekBar,
+        track,setTrack,
+        playStatus,setPlayStatus,
+        time,setTime,
+        play,pause
 
     }
     return(
