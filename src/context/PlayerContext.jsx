@@ -10,7 +10,8 @@ const PlayerContextProvider = (props)=>{
     const seekBar = useRef();
 
     const [track,setTrack] = useState(songData[0]);
-    
+    const[playStatus,setPlayStatus] = useState(false)
+
 
     const contextValue = {
         auidoref,
