@@ -1,34 +1,55 @@
-import { createContext,useRef,useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import { songsData } from "../assets/assets";
 
 
 export const PlayerContext = createContext();
 
-const PlayerContextProvider = (props)=>{
+const PlayerContextProvider = (props) => {
 
     const audioref = useRef();
     const seekbg = useRef();
     const seekBar = useRef();
 
-    const [track,setTrack] = useState(songsData[1]);
-    const[playStatus,setPlayStatus] = useState(false);
-    const[time,setTime] = useState({
-        currentTime:{
-            second:0,
-            minute:0
+    const [track, setTrack] = useState(songsData[1]);
+    const [playStatus, setPlayStatus] = useState(false);
+    const [time, setTime] = useState({
+        currentTime: {
+            second: 0,
+            minute: 0
         },
-        totalTime:{
-            second:0,
-            minute:0
+        totalTime: {
+            second: 0,
+            minute: 0
         }
     })
 
-    const play =()=>{
+    useEffect(() => {
+        setTimeout(() => {
+            audioref.current.ontimeupdate = () => {
+                setTime({
+                    currentTime: {
+                        second: Math.floor(audioref.current.currentTime % 60),
+                        minute: Math.floor(audioref.current.currentTime / 60),
+                    },
+                    totalTime:{
+                        second: Math.floor(audioref.current.duration % 60),
+                        minute: Math.floor(audioref.current.duration / 60),
+                        
+                    }
+
+                })
+            }
+
+        }, 1000);
+
+    }, [audioref])
+
+    const play = () => {
         audioref.current.play();
         setPlayStatus(true)
     }
 
-    const pause =()=>{
+    const pause = () => {
         audioref.current.pause();
         setPlayStatus(false)
 
@@ -38,13 +59,13 @@ const PlayerContextProvider = (props)=>{
         audioref,
         seekbg,
         seekBar,
-        track,setTrack,
-        playStatus,setPlayStatus,
-        time,setTime,
-        play,pause
+        track, setTrack,
+        playStatus, setPlayStatus,
+        time, setTime,
+        play, pause
 
     }
-    return(
+    return (
         <PlayerContext.Provider value={contextValue}>
             {props.children}
         </PlayerContext.Provider>
