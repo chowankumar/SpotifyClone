@@ -1,4 +1,4 @@
-import { createContext,useRef } from "react";
+import { createContext,useRef, useState } from "react";
 
 
 export const PlayerContext = createContext();
@@ -9,6 +9,7 @@ const PlayerContextProvider = (props)=>{
     const seekbg = useRef();
     const seekBar = useRef();
 
+    const [track,setTrack] = useState(songData[0]);
     
 
     const contextValue = {
