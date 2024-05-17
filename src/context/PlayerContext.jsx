@@ -27,6 +27,11 @@ const PlayerContextProvider = (props)=>{
         setPlayStatus(true)
     }
 
+    const pause =()=>{
+        auidoref.current.pause();
+        setPlayStatus(false)
+
+    }
 
     const contextValue = {
         auidoref,
